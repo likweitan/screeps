@@ -23,7 +23,7 @@ var roleHarvester = {
           creep.moveTo(targets[0], {
             visualizePathStyle: { stroke: "#ffffff" },
           });
-          creep.say("🔄 back");
+          creep.say("🔄 store");
         }
       }
     }
