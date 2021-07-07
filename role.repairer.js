@@ -17,7 +17,6 @@ var roleRepairer = {
 
       if (targets.length > 0) {
         if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-          creep.memory.target = targets[0];
           creep.moveTo(targets[0], {
             visualizePathStyle: { stroke: "#ffaa00" },
           });

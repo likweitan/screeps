@@ -3,6 +3,7 @@ var roleUpgrader = require("role.upgrader");
 var roleBuilder = require("role.builder");
 var roleRepairer = require("role.repairer");
 var roleSoldier = require("role.soldier");
+var roleCarrier = require("role.carrier");
 
 module.exports.loop = function () {
   var harvesters = _.filter(
@@ -24,6 +25,10 @@ module.exports.loop = function () {
   var soldiers = _.filter(
     Game.creeps,
     (creep) => creep.memory.role == "soldier"
+  );
+  var carriers = _.filter(
+    Game.creeps,
+    (creep) => creep.memory.role == "carrier"
   );
 
   var tower = Game.getObjectById("60ddccb3e63ac4484ce151b6");
@@ -85,9 +90,13 @@ module.exports.loop = function () {
   if (upgraders.length < 4) {
     var newName = "Upgrader" + Game.time;
     console.log("Spawning new upgrader: " + newName);
-    Game.spawns["Spawn1"].spawnCreep([WORK, CARRY, MOVE], newName, {
-      memory: { role: "upgrader" },
-    });
+    Game.spawns["Spawn1"].spawnCreep(
+      [WORK, WORK, CARRY, CARRY, MOVE],
+      newName,
+      {
+        memory: { role: "upgrader" },
+      }
+    );
   }
 
   if (builders.length < 2) {
@@ -112,6 +121,18 @@ module.exports.loop = function () {
     Game.spawns["Spawn1"].spawnCreep([TOUGH, ATTACK, MOVE], newName, {
       memory: { role: "soldier" },
     });
+  }
+
+  if (carriers.length < 2) {
+    var newName = "Carrier" + Game.time;
+    console.log("Spawning new repairer: " + newName);
+    Game.spawns["Spawn1"].spawnCreep(
+      [WORK, WORK, CARRY, CARRY, MOVE],
+      newName,
+      {
+        memory: { role: "carrier" },
+      }
+    );
   }
 
   if (Game.spawns["Spawn1"].spawning) {
@@ -140,6 +161,9 @@ module.exports.loop = function () {
     }
     if (creep.memory.role == "soldier") {
       roleSoldier.run(creep);
+    }
+    if (creep.memory.role == "carrier") {
+      roleCarrier.run(creep);
     }
   }
 };
